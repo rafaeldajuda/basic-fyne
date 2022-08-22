@@ -1,4 +1,4 @@
-# Bisic Fyne
+# Basic Fyne
 
 Fyne is a GUI lib for GO.
 
