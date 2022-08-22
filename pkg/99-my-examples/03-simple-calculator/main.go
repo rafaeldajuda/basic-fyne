@@ -1,9 +1,18 @@
 package main
 
 import (
+	"fmt"
+	"strconv"
+
 	"fyne.io/fyne/v2/app"
 	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/widget"
+)
+
+var (
+	result = 0
+	number = 0
+	s      = ""
 )
 
 func main() {
@@ -54,24 +63,45 @@ func main() {
 	})
 
 	btnPlus := widget.NewButton("+", func() {
-		lblResult.SetText(lblZero(lblResult.Text) + "+")
+		s = "+"
+		number, _ = strconv.Atoi(lblResult.Text)
+		lblResult.SetText("0")
+		calc()
 	})
+
 	btnMinus := widget.NewButton("-", func() {
-		lblResult.SetText(lblZero(lblResult.Text) + "-")
+		s = "-"
+		number, _ = strconv.Atoi(lblResult.Text)
+		lblResult.SetText("0")
+		calc()
+	})
+
+	btnBackSapce := widget.NewButton("<-", func() {
+		if len(lblResult.Text) != 0 {
+			lblResult.SetText(lblResult.Text[0 : len(lblResult.Text)-1])
+
+			if len(lblResult.Text) == 0 {
+				lblResult.SetText("0")
+			}
+		}
+
 	})
 
 	btnReset := widget.NewButton("reset", func() {
 		lblResult.SetText("0")
+		result = 0
+		number = 0
+		s = ""
 	})
 
 	btnCalc := widget.NewButton("calc", func() {
-		lblResult.SetText("result")
+		lblResult.SetText(strconv.Itoa(result))
 	})
 
 	lineOne := container.NewHBox(lblResult)
 	lineTwo := container.NewHBox(btnNine, btnEight, btnSeven, btnPlus)
 	lineThree := container.NewHBox(btnSix, btnFive, btnFour, btnMinus)
-	lineFour := container.NewHBox(btnThree, btnTwo, btnOne)
+	lineFour := container.NewHBox(btnThree, btnTwo, btnOne, btnBackSapce)
 	lineSix := container.NewHBox(btnZero, btnCalc, btnReset)
 
 	vNumberBox := container.NewVBox(lineOne, lineTwo, lineThree, lineFour, lineSix)
@@ -89,4 +119,20 @@ func lblZero(number string) string {
 	}
 
 	return number
+}
+
+func calc() {
+
+	if s == "+" {
+		result = result + number
+	} else if s == "-" {
+		result = result - number
+	} else {
+		result = number
+	}
+
+	fmt.Println("number", number)
+	fmt.Println("sinal", s)
+	fmt.Println("result", result)
+
 }
