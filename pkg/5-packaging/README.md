@@ -40,3 +40,7 @@ tar xf <package>.tar.xz
 make
 sudo make install
 ```
+
+# for mobile
+
+https://developer.fyne.io/started/mobile
